@@ -1,51 +1,55 @@
 <template>
-  <div class="user">
-    <img :src="imageSrc" alt="Foto de {{ nome }}" />
-    <h2>{{ nome }}</h2>
-    <h5>{{ caminhao }}</h5>
-    <p>{{ frase }}</p>
-    <router-link to="/cadastro" class="botaolight">Saiba mais</router-link>
+  <div class="carde">
+    <div class="info">
+    <h3>{{ caminhoneiro.nomeCaminhoneiro }}</h3>
+    <img :src="imgPerfil" class="img-perfil" alt="Imagem de perfil">
+    <p><b>Marca do Caminhão:</b> {{ caminhoneiro.marcaCaminhao }}</p>
+    <p><b>Cor do Caminhão:</b> {{ caminhoneiro.corCaminhao }}</p>
+  </div>
   </div>
 </template>
-  
-  <script>
-  export default {
-    props: {
-      imageSrc: String,
-      nome: String,
-      caminhao: String,
-      frase: String,
-    },
+
+<script>
+export default {
+  name: 'CaminhoneiroCard',
+  props: {
+    caminhoneiro: Object,
+    imgPerfil: String
   }
-  </script>
-  
+};
+</script>
+
 <style scoped>
-.user {
-  clip-path: polygon(100% 0, 100% 90%, 85% 100%, 0 100%, 0 0);
-  color: white;
-  background: radial-gradient(circle,rgba(96, 96, 96) 0%, rgba(6,6,6) 100%);
-  padding: 1rem;
-  box-shadow: var(--box-shadow);
-  transition: all 0.3s ease;
+.carde {
+  flex: 0 0 auto;
+  border: 1px solid #ccc;
+  width: 20vw;
+  padding: 5vw;
+  margin: 8px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: normal; /* necessário para que o texto não seja recortado */
+  word-wrap: break-word; /* necessário para que o texto não seja recortado */
+}
+.img-perfil {
+  width: 100%; 
+}
+.info {
   text-align: center;
-  width: 15rem;
-  height: 20rem;
+}
+h3{
+  justify-content: center;
+  font-size: 1.2vw;
+}
+p{
+  font-size: 1vw;
 }
 
-.user .botaolight {
-  background: #fff;
-  padding: 8px;
-  font-size: 100%;
-  border-radius: 5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #333333;
-  transition: .3s;
-}
-
-.user .botaolight:hover {
-  background-color: red;
-  color: white;
-}
-
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    width: 100%;
+    color: #FFF !important;
+  }
 </style>
