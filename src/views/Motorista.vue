@@ -1,171 +1,133 @@
-<script setup>
-import Userlist from '../components/Userlist.vue'
-import iconeURL from '../assets/iconeadd.png'
-  
-  const users = [
-    { id: 1, name: 'Joaquim', truck: 'Scania', image: 'https://static.vecteezy.com/ti/fotos-gratis/t2/7074324-sorriso-confianca-jovem-profissional-motorista-em-negocio-longo-transporte-foto.jpg' },
-    { id: 2, name: 'Carlos', truck: 'Volvo', image: 'https://conteudo.imguol.com.br/c/noticias/0b/2022/06/23/o-motorista-amauri-oliveira-acredita-que-o-auxilio-de-r-400-sera-pouco-pelos-gastos-que-tem-1655995514896_v2_3x4.jpg' },
-    //...
-  ]
-  
-  const orders = [
-    { id: 1, name: 'Carlos', truck: 'Volvo FH16', date: '2024-05-10', status: 'Concluído' },
-    { id: 2, name: 'Joaquim', truck: 'Scania', date: '2024-10-05', status: 'Concluído' },
-    //...
-  ]
-  </script>
-
 <template>
-    <main id="Motorista-page">
-    <Userlist :users="users" />
-      <section class="recent-orders">
-        <h2 class="subtitulo">Rotas Recentes</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Caminhão</th>
-              <th>Data</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="order in orders" :key="order.id">
-              <td>{{ order.name }}</td>
-              <td>{{ order.truck }}</td>
-              <td>{{ order.date }}</td>
-              <td :class="order.status === 'Concluído'? 'dada' : 'pend'">{{ order.status }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </main>
-  </template>
-  
+  <div class="text">
+    <h1>Motoristas</h1>
+  </div>
+  <div id="app" class="container">
+    <div class="card">
+      <div class="img-perfil">
+        <img :src="imgPerfil" class="img-perfil" alt="Imagem de perfil">
+      </div>
+      <h3>Adicione um Motorista</h3>
+      <div class="butaozinho">
+        <router-link to="/cadastro" class="butaozinho">Clique Aqui</router-link>
+      </div>
+    </div>
+    <div class="card-list-container">
+      <div class="card-list">
+        <CaminhoneiroCard
+          v-for="caminhoneiro in caminhoneiros"
+          :key="caminhoneiro.nomeCaminhoneiro"
+          :caminhoneiro="caminhoneiro"
+          :imgPerfil="imgPerfil"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+import CaminhoneiroCard from '../components/CaminhoneiroCard.vue';
+
+export default {
+  name: 'Motorista',
+  components: {
+    CaminhoneiroCard
+  },
+  data() {
+    return {
+      caminhoneiros: [],
+      imgPerfil: 'https://raw.githubusercontent.com/gabebuenu/guardarimagens/6375c7327f6ba3b2ace0ebe97edab425b6e856a7/user3.svg' // URL padrão da imagem de perfil
+    };
+  },
+  mounted() {
+    this.fetchCaminhoneiros();
+  },
+  methods: {
+    fetchCaminhoneiros() {
+      axios.get('http://localhost:5016/api/Join/caminhoneiros-com-caminhoes')
+        .then(response => {
+          this.caminhoneiros = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching caminhoneiros data:', error);
+        });
+    }
+  }
+};
+</script>
 
 <style>
-:root {
-    --color-primary: #6C9BCF;
-    --color-danger: #8e0101;
-    --color-success: #1B9C85;
-    --color-warning: #F7D060;
-    --color-white: #fff;
-    --color-info-dark: #7d8da1;
-    --color-dark: black;
-    --color-light: rgba(132, 139, 200, 0.18);
-    --color-dark-variant: #677483;
-    --color-background: #f6f6f9;
-
-    --card-border-radius: 2rem;
-    --border-radius-1: 0.4rem;
-    --border-radius-2: 1.2rem;
-
-    --card-padding: 1.8rem;
-    --padding-1: 1.2rem;
-
-    --box-shadow: 0 1.8rem 3rem var(--color-light);
+.text {
+  text-align: center;
+}
+.text h1{
+  color: #000;
 }
 
-main .new-users {
-    margin-top: 3rem;
+.card {
+  flex: 0 0 auto;
+  border: 1px solid #ccc;
+  width: 20vw;
+  padding: 5vw;
+  margin: 8px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-main .new-users p {
-    margin-top: 2rem;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.card h3 {
+  font-size: 100%;
+}
+
+.butaozinho {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.butaozinho a {
+  background-color: rgb(146, 1, 1);
+  border-radius: 16px;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card .img-perfil{
+  width: 100%;
+}
+
+.carde {
+  background-color: #fff;
+  flex: 0 0 auto;
+  border: 1px solid #ccc;
+  width: 20vw;
+  padding: 5vw;
+  margin: 8px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 
-main .new-users .user-list {
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-top: 1rem;
-    box-shadow: var(--box-shadow);
-    display: flex;
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
     justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 1.4rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-main .new-users .user-list:hover {
-    box-shadow: none;
-}
-
-
-
-main .new-users .user-list .user:hover {
-    box-shadow: none;
-}
-
-main .new-users .user-list .user img {
-    width: 5rem;
-    height: 5rem;
-    margin-top: 1rem;
-    margin-bottom: 0.4rem;
-    border-radius: 50%;
-}
-
-main .recent-orders {
-    margin-top: 2rem;
-}
-
-main .recent-orders h2 {
-    margin-bottom: 0.8rem;
-}
-
-main .recent-orders table {
-    background-color: var(--color-white);
-    width: 100%;
-    padding: var(--card-padding);
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--card-border-radius);
-    transition: all 0.3s ease;
-}
-
-main .recent-orders table:hover {
-    box-shadow: none;
-}
-
-main table tbody td {
-    height: 4rem;
-    border-bottom: 1px solid var(--color-light);
-    color: var(--color-dark-variant);
-}
-
-main table tbody tr:last-child td {
-    border: none;
-}
-
-main .recent-orders a {
-    text-align: center;
-    display: block;
-    margin: 1rem auto;
-    color: var(--color-primary);
-}
-
-
-.icone {
-    margin-top: 3rem;
-}
-
-.dada {
-    color: chartreuse;
-}
-
-.pend {
-    color: red;
-}
-
-
-
-.subtitulo {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-}
-
-.extra-space {
-    height: 20px;
+    align-items: flex-start;
+  }
 }
 </style>
