@@ -1,359 +1,211 @@
 <template>
-	<main id="dashboard-page">
-		<header>
-            </header>
-            <div class="separator">
-                <div class="info1">
-                    <h3>Dashboard</h3>
-                </div>
-                <div class="search">
-                    <input type="text" placeholder="Pesquisar...">
-                    <i class='bx bx-search'></i>
-                </div>
-            </div>
-
-            <div class="analytics">
-                <div id="item1" class="item">
-                    
-                    <h1 class="text-edit">Localização</h1>
-                    <i class='bx bx-map-pin' style='color:white'></i>
-                </div>
-
-                <div id='item2' class="item">
-					<h1 class="text-edit">Acesso</h1>
-                    <i class='bx bx-user-voice' style='color:white'></i>
-                </div>
-                <div id='item3' class="item">
-					<h1 class="text-edit">Reuniões</h1>
-                    <i class='bx bx-support' style='color:white'></i>
-                </div>
-                <div id='item4' class="item">
-					<h1 class="text-edit">Notificações</h1>
-                    <i class='bx bx-bell' style='color:white'></i>
-                </div>
-            </div>
-
-            <div class="separator">
-                <div class="info">
-                    <h3>Rascunhos</h3>
-                </div>
-                <input class="data" type="date" value="2023-10-15">
-            </div>
-
-            <div class="planning">
-                <div class="item">
-                    <div class="left">
-                        <div class="icon">
-                            <i class='bx bx-book-alt' style='color:white'></i>
-                        </div>
-                        <div class="details">
-                            <h5>Reunião - Supervisores</h5>
-                            <p>8:00 - 10:00</p>
-                        </div>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </div>
-                <div class="item">
-                    <div class="left">
-                        <div class="icon">
-                            <i class='bx bx-edit-alt'style='color:white'></i>
-                        </div>
-                        <div class="details">
-                            <h5>Revisão</h5>
-                            <p>13:00 - 14:00</p>
-                        </div>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </div>
-                <div class="item">
-                    <div class="left">
-                        <div class="icon">
-                            <i class='bx bx-headphone' style='color:white'></i>
-                        </div>
-                        <div class="details">
-                            <h5>Call</h5>
-                            <p>15:00 - 16:00</p>
-                        </div>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </div>
-                <div class="item">
-                    <div class="left">
-                        <div class="icon">
-                            <i class='bx bx-volume-low' style='color:white'></i>
-                        </div>
-                        <div class="details">
-                            <h5>Relatório</h5>
-                            <p>19:00 - 20:00</p>
-                        </div>
-                    </div>
-                    <i class='bx bx-dots-vertical-rounded'></i>
-                </div>
-            </div>
-	</main>
-</template>
-<style>
-main header{
+    <div class="texte">
+      <h1>Dashboard/Analytics</h1>
+    </div>
+    <main id="dashboard-page">
+      <div class="box">
+        <h1>Visitantes</h1>
+        <p></p>
+        <div class="rotas">
+          <i class='bx bx-user-voice' style='color:black'></i>
+        </div>
+        <div class="botao-primary">
+          <button class="cor-botao">Inicio</button>
+        </div>
+      </div>
+      <div class="box">
+        <h1>Motorista</h1>
+        <p></p>
+        <div class="rotas">
+          <i class='bx bx-support' style='color:black'></i>
+        </div>
+        <div class="botao-primary">
+          <button class="cor-botao">Motorista</button>
+        </div>
+      </div>
+      <div class="box">
+        <h1>Rotas</h1>
+        <p></p>
+        <div class="rotas">
+          <i class='bx bx-map-pin' style='color:black'></i>
+        </div>
+        <div class="botao-primary">
+          <button class="cor-botao">Rotas</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="box-right">
+    <h1>Relatórios</h1>
+    <p><i class='bx bxs-report' style='color:black'></i> Relatórios de desempenho mensal</p>
+    <div class="botao-secunda">
+      <button class="secunda">Download CSV</button>
+    </div>
+    <div class="botao-secunda">
+      <button class="secunda">Download PDF</button>
+    </div>
+    <div class="botao-secunda">
+      <button class="secunda">Gerar Gráfico</button>
+    </div>
+      </div>
+    </main>
+  </template>
+  
+  <script>
+  import { Chart, registerables } from 'chart.js';
+  Chart.register(...registerables);
+  
+  export default {
+    data() {
+      return {};
+    },
+    mounted() {
+      this.renderChart();
+    },
+    methods: {
+      renderChart() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Reunioes', 'Rotas', 'Motorista'],
+            datasets: [{
+              label: '# Histórico',
+              data: [12, 19, 3],
+              backgroundColor: [
+                'rgba(255, 0, 0, 0.514)',
+                'rgba(161, 161, 161, 0.39)',
+                'rgba(77, 77, 77, 0.493)',
+              ],
+              borderColor: [
+                'rgb(255, 0, 0)',
+                'rgb(255, 255, 255)',
+                'rgb(0, 0, 0)',
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  #dashboard-page {
     display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-main header h5{
-    margin-top: 0.5rem;
-    font-size: 18px;
-    color: #f8221b;
-    font-weight: 400;
-}
-
-main .separator{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-main .separator .info{
-    margin-top: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-main .separator .info h3{
-    font-size: 30px;
-}
-
-main .separator .info a{
-    margin-top: 6px;
-    font-size: 14px;
-}
-
-main .separator .search{
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-main .separator .search i{
-    font-size: 20px;
-    color: #555555;
-}
-
-main .separator .search input{
-    border: none;
-	border-radius: 4px;
-    font-size: 14px;
-    width: 80px;
-    outline: none;
-}
-
-main .separator .search input::placeholder{
-    color: #BDBDBD;
-}
-
-main .analytics{
-    display: grid;
-	grid-template-columns: 0.5fr 0.5fr 0.5fr 0.5fr;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-main .analytics .item{
-    clip-path: polygon(100% 0, 100% 90%, 85% 100%, 0 100%, 0 0);
-    display:flex;
-    align-items:self-end;
-    justify-content: space-between;
-    height: 500px;
-    min-width: 214px;
-    padding: 20px;
-}
-
-main .analytics .item h1{
-    font-style: italic;
-	font-weight: bold;
-	font-size: 30px;
-	font-family: arial, sans-serif;
-    color: white;
-}
-
-main .analytics .item i{
-
-    font-size: 80px;
-    color: #ffffff;
-}
-
-
-.analytics .item:nth-child(1) {
-    position: relative;
-    overflow: hidden;
-}
-
-.analytics .item:nth-child(1)::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(circle, rgba(155, 2, 2) 0%, rgba(50, 2, 2) 100%), 
-                url("https://gizmodo.uol.com.br/wp-content/blogs.dir/8/files/2017/03/google-maps.jpg");
-    background-size: cover;
-    background-blend-mode: multiply;
-    z-index: -1;
-}
-
-.analytics .item:nth-child(2) {
-    position: relative;
-    overflow: hidden;
-}
-
-.analytics .item:nth-child(2)::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(circle,rgba(96, 96, 96) 0%, rgba(6,6,6) 100%),
-                url("https://www.dimep.com.br/wp-content/uploads/2019/05/1473771604.492882.jpe");
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: multiply;
-    z-index: -1;
-}
-
-
-.analytics .item:nth-child(4) {
-    position: relative;
-    overflow: hidden;
-}
-
-.analytics .item:nth-child(4)::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(circle,rgba(96, 96, 96) 100%, rgba(6,6,6) 100%),
-                url("https://img.freepik.com/vetores-premium/icone-de-lembrete-de-notificacao-vermelho_165488-4292.jpg");
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: multiply;
-    z-index: -1;
-}
-
-.analytics .item:nth-child(3) {
-    position: relative;
-    overflow: hidden;
-}
-
-.analytics .item:nth-child(3)::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: radial-gradient(circle, rgba(155, 2, 2) 2%, rgba(50, 2, 2) 100%),
-                url("https://targetteal.com/wp-content/uploads/meeting-of-people.png");
-    background-size: cover;
-    background-position: right;
-    background-blend-mode: multiply;
-    z-index: -1;
-}
-
-
-
-main .separator input{
-    border: none;
-    color: #f80000;
-    font-weight: bold;
-    outline: none;
-    width: 106px;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator{
-    opacity: 0.5;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-main .planning{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-main .planning .item{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #F7F7F7;
-    border-radius: 20px;
-}
-
-main .planning .item .left{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-main .planning .item .left .icon{
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: center;
-}
-
-main .planning .item:nth-child(1) .left .icon{
-    background: #ff5353;
-}
-
-main .planning .item:nth-child(1) .left .icon i{
-    color: #ff0000;
-}
-
-main .planning .item:nth-child(2) .left .icon{
-    background: #494949;
-}
-
-main .planning .item:nth-child(2) .left .icon i{
-    color: #000000;
-}
-
-main .planning .item:nth-child(3) .left .icon{
-    background: #b1b1b1;
-}
-
-main .planning .item:nth-child(3) .left .icon i{
-    color: #222222;
-}
-
-main .planning .item:nth-child(4) .left .icon{
-    background: #fd3939;
-}
-
-main .planning .item:nth-child(4) .left .icon i{
-    color: #e60808;
-}
-
-main .planning .item .left .details h5{
-    font-size: 12px;
-    font-weight: 600;
-}
-
-main .planning .item .left .details p{
-    font-size: 12px;
-    color: #BDBDBD;
-}
-
-main .planning .item > i{
-    cursor: pointer;
-}
-
-</style>
+  }
+  
+  .texte h1 {
+    font-size: 2vw;
+    margin: 10px;
+  }
+  
+  .box, .chart-container, .box-right {
+    margin: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(53, 53, 53, 0.514);
+    box-sizing: border-box;
+  }
+  
+  .box {
+    flex: 1 1 30%;
+    min-width: 250px;
+    max-width: 30%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .chart-container {
+    flex: 1 1 100%;
+    min-width: 300px;
+    max-width: 100%;
+    background-color: #000000;
+    padding: 10px;
+    height: 400px; /* Add this to ensure a proper aspect ratio */
+    position: relative;
+  }
+  
+  .box-right {
+    flex: 1 1 100%;
+    min-width: 300px;
+    max-width: 100%;
+    padding: 10px;
+  }
+  .box-right .botao-secunda{
+    padding-top: 10px;
+  }
+  .botao-primary, .botao-secunda {
+    align-self: flex-end;
+  }
+  
+  .cor-botao, .secunda {
+    color: #FFF;
+    background-color: #960000;
+    height: 40px;
+    width: 90px;
+    border-radius: 10px;
+  }
+  
+  .secunda {
+    background-color: #000000;
+  }
+  
+  .box h1, .box-right h1 {
+    font-size: 2vw;
+    margin: 10px 0;
+  }
+  
+  .rotas i {
+    font-size: 3rem;
+    margin: 10px;
+    align-self: center;
+  }
+  
+  @media (max-width: 700px) {
+    .box, .chart-container, .box-right {
+      min-width: 50%;
+      max-width: 10%;
+    }
+  
+    .texte h1 {
+      font-size: 4vw;
+      text-align: center;
+    }
+  
+    .box h1, .box-right h1 {
+      font-size: 25px;
+      text-align: center;
+    }
+  
+    .botao-primary, .botao-secunda {
+      align-self: center;
+      margin-top: 20px;
+    }
+  
+    .rotas i {
+      font-size: 2rem;
+    }
+  
+    .chart-container {
+      height: 300px; /* Adjusted height for smaller screens */
+    }
+  }
+  </style>
+  
